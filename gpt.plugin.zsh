@@ -62,8 +62,8 @@ ps -ax
 Q: ${prompt_q}
 EOF
 )" | \
-  jq -Rs '{"model": "text-davinci-003", "prompt": ., "temperature": 0, "max_tokens": 100}' | \
-  curl -s https://api.openai.com/v1/completions -H "Content-Type: application/json" -H "Authorization: Bearer $OPENAI_API_KEY" -d @- | \
+  jq -Rs '{"model": "gpt-4", "messages": [{"role": "user", "content": .}], "temperature": 0, "max_tokens": 512}' | \
+  curl -s https://api.openai.com/v1/chat/completions -H "Content-Type: application/json" -H "Authorization: Bearer $OPENAI_API_KEY" -d @- | \
   jq '.choices[0].text' -rc | \
   read -d '' __gpt__last_result
 
